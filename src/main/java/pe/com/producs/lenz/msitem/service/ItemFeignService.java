@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.com.producs.lenz.msitem.clientes.ClientProductRest;
 import pe.com.producs.lenz.msitem.models.Item;
+import pe.com.producs.lenz.msitem.models.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,5 +22,20 @@ public class ItemFeignService implements ItemService {
     @Override
     public Mono<Item> findById(Long id, Integer quantity) {
         return Mono.justOrEmpty(clientProductRest.findById(id)).map(x -> new Item(x, quantity));
+    }
+
+    @Override
+    public Mono<Product> save(Product product) {
+        return Mono.justOrEmpty(clientProductRest.create(product));
+    }
+
+    @Override
+    public Mono<Product> update(Product product, Long id) {
+        return Mono.justOrEmpty(clientProductRest.update(product, id));
+    }
+
+    @Override
+    public Mono<Product> delete(Long id) {
+        return Mono.justOrEmpty(clientProductRest.delete(id));
     }
 }
